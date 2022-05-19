@@ -72,4 +72,26 @@ public class BlogController
         return blogService.queryBlogLikes(id);
     }
 
+    /**
+     * 查询用户的笔记信息
+     *
+     * @param current 当前页，如果不指定，则为第一页
+     * @param id      博主的id
+     * @return Result
+     */
+    @GetMapping("/of/user")
+    public Result queryBlogByUserId(@RequestParam(value = "current", defaultValue = "1") Integer current,
+                                    @RequestParam("id") Long id)
+    {
+        //根据用户查询
+        Page<Blog> page = blogService.query().
+                eq("user_id", id).
+                page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+        //获取当前页数据
+        List<Blog> records = page.getRecords();
+        //返回
+        return Result.ok(records);
+    }
+
+
 }

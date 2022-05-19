@@ -1,9 +1,12 @@
 package mao.spring_boot_redis_hmdp.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import mao.spring_boot_redis_hmdp.dto.LoginFormDTO;
 import mao.spring_boot_redis_hmdp.dto.Result;
+import mao.spring_boot_redis_hmdp.dto.UserDTO;
+import mao.spring_boot_redis_hmdp.entity.User;
 import mao.spring_boot_redis_hmdp.entity.UserInfo;
 import mao.spring_boot_redis_hmdp.service.IUserInfoService;
 import mao.spring_boot_redis_hmdp.service.IUserService;
@@ -78,5 +81,25 @@ public class UserController
         info.setUpdateTime(null);
         // 返回
         return Result.ok(info);
+    }
+
+    /**
+     * 根据查询用户信息
+     *
+     * @param userId 用户的id
+     * @return Result
+     */
+    @GetMapping("/{id}")
+    public Result queryUserById(@PathVariable("id") Long userId)
+    {
+        //查询用户信息
+        User user = userService.getById(userId);
+        if (user == null)
+        {
+            return Result.ok();
+        }
+        //转换
+        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+        return Result.ok(userDTO);
     }
 }
