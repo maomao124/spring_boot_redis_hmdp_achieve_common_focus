@@ -25,6 +25,8 @@ public class RedisConstants
     public static final String LOCK_BLOG_KEY = "lock:blog:";
     public static final Long CACHE_BLOG_TTL = 10L;
 
+    public static final String FOLLOW_KEY = "follow:";
+
 
 
 
